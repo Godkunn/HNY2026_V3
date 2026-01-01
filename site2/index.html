@@ -1169,29 +1169,45 @@
         }
 
         // Screen navigation
-        function showScreen(screenNumber) {
-            // Hide all screens
-            screens.forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
-            // Show the requested screen
-            document.getElementById(`screen-${screenNumber}`).classList.add('active');
-            gameState.currentScreen = screenNumber;
-            
-            // Update UI
-            updateProgress();
-            updateNavigationButtons();
-            
-            // Special actions for specific screens
-            if (screenNumber === 2) { // Maze screen
-                showNotification("Use the arrow buttons to navigate the maze");
-            } else if (screenNumber === 6) { // Celebration screen
-                startCelebrationTimer();
-                launchFireworks();
-                showNotification("Stay on this page for 1 minute to unlock a secret message!");
-            }
-        }
+        // Helper to map screen numbers to element IDs
+function getScreenElement(screenNumber) {
+    if (screenNumber === 1) return document.getElementById('welcome-screen');
+    if (screenNumber === gameState.totalScreens) return document.getElementById('celebration-screen');
+    return document.getElementById(`screen-${screenNumber}`);
+}
+
+function showScreen(screenNumber) {
+    // Hide all screens first
+    screens.forEach(screen => {
+        screen.classList.remove('active');
+    });
+
+    // Find correct element (handles welcome/celebration special IDs)
+    const screenEl = getScreenElement(screenNumber);
+
+    if (!screenEl) {
+        console.warn(`showScreen: no element found for screen ${screenNumber}`);
+        return;
+    }
+
+    // Show the requested screen
+    screenEl.classList.add('active');
+    gameState.currentScreen = screenNumber;
+
+    // Update UI
+    updateProgress();
+    updateNavigationButtons();
+
+    // Special actions for specific screens
+    if (screenNumber === 2) { // Maze screen
+        showNotification("Use the arrow buttons to navigate the maze");
+    } else if (screenNumber === gameState.totalScreens) { // Celebration screen
+        startCelebrationTimer();
+        launchFireworks();
+        showNotification("Stay on this page for 1 minute to unlock a secret message!");
+    }
+}
+
 
         function goToPreviousScreen() {
             if (gameState.currentScreen > 1) {
