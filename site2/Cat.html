@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos Heart | A Cinematic Adventure for You</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&family=Montserrat:wght@300;500;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        :root {
+            --neon-cyan: #00f7ff;
+            --neon-pink: #ff00d6;
+            --neon-yellow: #fff500;
+            --neon-purple: #b967ff;
+            --neon-green: #00ff9d;
+            --dark-bg: #0a0a1a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-glow: 0 0 10px currentColor, 0 0 20px currentColor;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 214, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 245, 0, 0.03) 0%, transparent 30%);
+        }
+
+        /* Background Animation */
+        #background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--neon-cyan);
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 50px) rotate(90deg); }
+            50% { transform: translate(40px, 0) rotate(180deg); }
+            75% { transform: translate(20px, -50px) rotate(270deg); }
+        }
+
+        .pulse {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        /* Glassmorphism Elements */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .neon-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, 
+                rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Welcome Screen */
+        #welcome-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--neon-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+            animation: colorShift 5s infinite alternate;
+        }
+
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.7);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-2px);
+        }
+
+        /* Story Screens */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .screen-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+        }
+
+        .screen-content {
+            max-width: 800px;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .story-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0, 247, 255, 0.3);
+        }
+
+        .story-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 247, 255, 0.1), rgba(255, 0, 214, 0.1));
+        }
+
+        /* Game Containers */
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px auto;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--neon-cyan);
+        }
+
+        /* Maze Game */
+        #maze-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            gap: 3px;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        .maze-cell {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .maze-cell.path {
+            background: rgba(0, 247, 255, 0.3);
+        }
+
+        .maze-cell.wall {
+            background: rgba(255, 0, 214, 0.5);
+        }
+
+        .maze-cell.start {
+            background: rgba(0, 255, 157, 0.7);
+        }
+
+        .maze-cell.end {
+            background: rgba(255, 245, 0, 0.7);
+        }
+
+        .maze-cell.player {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 15px white;
+            z-index: 2;
+        }
+
+        /* Maze Controls */
+        .maze-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 10px;
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 247, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Memory Game */
+        #memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 15px;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            background: linear-gradient(135deg, rgba(0, 247, 255, 0.1), rgba(255, 0, 214, 0.1));
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            position: relative;
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card .front, .memory-card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memory-card .front {
+            background: linear-gradient(135deg, rgba(0, 247, 255, 0.2), rgba(255, 0, 214, 0.2));
+        }
+
+        .memory-card .back {
+            background: linear-gradient(135deg, rgba(185, 103, 255, 0.7), rgba(0, 255, 157, 0.7));
+            transform: rotateY(180deg);
+        }
+
+        /* Logic Puzzle */
+        .puzzle-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .puzzle-question {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+        }
+
+        .puzzle-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .puzzle-option {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .puzzle-option:hover {
+            background: rgba(0, 247, 255, 0.1);
+            border-color: var(--neon-cyan);
+        }
+
+        .puzzle-option.correct {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .puzzle-option.incorrect {
+            background: rgba(255, 0, 214, 0.2);
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .progress-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--neon-yellow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 10px;
+        }
+
+        .world-indicators {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .world-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .world-indicator.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .world-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Celebration Screen */
+        #celebration-screen {
+            background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
+            overflow: hidden;
+        }
+
+        .fireworks-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: fireworkExplosion 2s forwards;
+        }
+
+        @keyframes fireworkExplosion {
+            0% { transform: translateY(100vh); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: translateY(var(--explode-y)) scale(10); opacity: 0; }
+        }
+
+        .celebration-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, gold, orange, yellow);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px gold;
+            animation: pulseText 2s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .new-year-message {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .secret-message-container {
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #secret-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff0080, #8000ff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        #secret-btn.unlocked {
+            opacity: 1;
+            pointer-events: all;
+            animation: pulseBtn 2s infinite;
+        }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 10px #ff0080; }
+            50% { box-shadow: 0 0 30px #ff0080; }
+            100% { box-shadow: 0 0 10px #ff0080; }
+        }
+
+        #secret-btn.unlocked:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px #ff0080;
+        }
+
+        .timer-text {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #secret-message {
+            font-size: 1.8rem;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+            line-height: 1.6;
+            animation: fadeIn 1s ease;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 247, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:disabled:hover {
+            transform: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Music Player */
+        #music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        #music-toggle:hover {
+            background: rgba(0, 247, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 5px solid var(--neon-cyan);
+            border-radius: 8px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .screen-title {
+                font-size: 2.2rem;
+            }
+            
+            .screen-content {
+                font-size: 1.1rem;
+            }
+            
+            #maze-container, #memory-grid {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .celebration-title {
+                font-size: 2.8rem;
+            }
+            
+            .navigation {
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            #maze-container, #memory-grid {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .memory-card {
+                font-size: 2rem;
+            }
+            
+            .control-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .celebration-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div id="background-effects"></div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle" style="color: var(--neon-cyan);"></i>
+        <span id="notification-text"></span>
+    </div>
+
+    <!-- Music Toggle -->
+    <button id="music-toggle">
+        <i class="fas fa-music"></i>
+    </button>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="logo">CHRONOS HEART</div>
+            <p class="tagline">Time is broken. Memories are scattered across dimensions. Only you can restore the fabric of reality in this cinematic adventure.</p>
+            <button id="start-btn" class="btn btn-primary">BEGIN THE JOURNEY</button>
+            <div class="glass" style="margin-top: 50px; padding: 20px; border-radius: 15px; max-width: 600px;">
+                <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.8);">
+                    <i class="fas fa-star" style="color: var(--neon-yellow); margin-right: 10px;"></i>
+                    Experience 5 magical worlds • Solve mind-bending puzzles • Unlock emotional memories
+                </p>
+            </div>
+        </section>
+
+        <!-- Story Screens -->
+        <!-- Screen 1: The Broken Time -->
+        <section id="screen-1" class="screen">
+            <h2 class="screen-title">THE BROKEN TIME</h2>
+            <div class="story-image glass"></div>
+            <div class="screen-content glass" style="padding: 30px; border-radius: 20px;">
+                <p>You wake up to a silent world. The clocks have stopped. The familiar hum of time is gone. A mysterious figure appears—the Chronos Wraith—and reveals that the Tapestry of Moments has been shattered.</p>
+                <p style="margin-top: 20px;"><strong>Emotional fragments</strong> are scattered across five dimensions. As the last person whose heart still beats in sync with time's true rhythm, you must journey through these worlds and restore what was lost.</p>
+                <p style="margin-top: 20px; color: var(--neon-cyan);">"Will you become the Guardian of Time?"</p>
+            </div>
+        </section>
+
+        <!-- Screen 2: Lumina - World of Lost Courage -->
+        <section id="screen-2" class="screen">
+            <h2 class="screen-title">LUMINA: WORLD OF LOST COURAGE</h2>
+            <div class="story-image glass"></div>
+            <div class="screen-content glass" style="padding: 30px; border-radius: 20px;">
+                <p>The first world is a realm of shimmering light and deep shadows. Towers of crystal reflect your fears back at you. Here, courage has been shattered into a thousand fragments.</p>
+                <p style="margin-top: 20px;">To restore the <strong>Ember of Valor</strong>, you must navigate the Maze of Reflections. Each turn reveals a memory—some joyful, some painful—but all necessary to find your way.</p>
+            </div>
+            
+            <!-- Maze Game -->
+            <div class="game-container glass">
+                <h3 class="game-title">MAZE OF REFLECTIONS</h3>
+                <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.8);">Navigate through the maze to find the exit and restore courage!</p>
+                <div id="maze-container"></div>
+                
+                <!-- Maze Controls -->
+                <div class="maze-controls">
+                    <div class="control-row">
+                        <button class="control-btn" id="maze-up">↑</button>
+                    </div>
+                    <div class="control-row">
+                        <button class="control-btn" id="maze-left">←</button>
+                        <button class="control-btn" id="maze-down">↓</button>
+                        <button class="control-btn" id="maze-right">→</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; justify-content: center; gap: 20px;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: rgba(0, 255, 157, 0.7); margin-right: 10px; border-radius: 4px;"></div>
+                        <span>Start</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: rgba(255, 245, 0, 0.7); margin-right: 10px; border-radius: 4px;"></div>
+                        <span>Exit</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 20px; height: 20px; background: rgba(255, 0, 214, 0.5); margin-right: 10px; border-radius: 4px;"></div>
+                        <span>Walls</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 3: Mnemosyne - World of Fading Joy -->
+        <section id="screen-3" class="screen">
+            <h2 class="screen-title">MNEMOSYNE: WORLD OF FADING JOY</h2>
+            <div class="story-image glass"></div>
+            <div class="screen-content glass" style="padding: 30px; border-radius: 20px;">
+                <p>A world of pastel colors and soft melodies, where laughter echoes like distant wind chimes. Here, joyful memories are trapped in mirror fragments, losing their color with each passing moment.</p>
+                <p style="margin-top: 20px;">Match the memory pairs to restore the <strong>Prism of Laughter</strong>. Each match brings back a moment of pure joy, and with it, the world grows brighter.</p>
+            </div>
+            
+            <!-- Memory Game -->
+            <div class="game-container glass">
+                <h3 class="game-title">MEMORY BLOOM</h3>
+                <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.8);">Find all matching pairs to restore joyful memories!</p>
+                <div id="memory-grid"></div>
+                <p id="memory-status" style="margin-top: 20px; font-size: 1.2rem;">Matches: <span id="match-count">0</span>/8</p>
+            </div>
+        </section>
+
+        <!-- Screen 4: The Axiom - World of Fractured Logic -->
+        <section id="screen-4" class="screen">
+            <h2 class="screen-title">THE AXIOM: WORLD OF FRACTURED LOGIC</h2>
+            <div class="story-image glass"></div>
+            <div class="screen-content glass" style="padding: 30px; border-radius: 20px;">
+                <p>A realm of floating geometries and shifting equations. Here, logic itself has been fractured, creating paradoxes that threaten to unravel reality. Neon data streams flow like rivers through the void.</p>
+                <p style="margin-top: 20px;">Solve the temporal paradoxes to restore the <strong>Keystone of Clarity</strong>. Only by embracing both logic and intuition can you mend this broken world.</p>
+            </div>
+            
+            <!-- Logic Puzzle -->
+            <div class="game-container glass">
+                <h3 class="game-title">TEMPORAL PARADOX</h3>
+                <div class="puzzle-container">
+                    <p class="puzzle-question">"If the heart of time beats twice in the realm of blue, and once in the realm of red, but blue is red when seen through tears of joy—how many beats echo in the silent chamber?"</p>
+                    <div class="puzzle-options">
+                        <div class="puzzle-option" data-answer="1">One eternal beat</div>
+                        <div class="puzzle-option" data-answer="2">Three, but the third is silent</div>
+                        <div class="puzzle-option" data-answer="3">The question itself is the answer</div>
+                        <div class="puzzle-option" data-answer="correct">The beats are not countable, only felt</div>
+                    </div>
+                    <p id="puzzle-feedback" style="margin-top: 20px; font-size: 1.2rem; min-height: 30px;"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screen 5: Ouroboros - World of Final Destiny -->
+        <section id="screen-5" class="screen">
+            <h2 class="screen-title">OUROBOROS: WORLD OF FINAL DESTINY</h2>
+            <div class="story-image glass"></div>
+            <div class="screen-content glass" style="padding: 30px; border-radius: 20px;">
+                <p>The final world is a monochrome realm where all colors converge into blinding white. The Chronos Wraith awaits you here—not as an enemy, but as a future echo of yourself, burdened by doubt.</p>
+                <p style="margin-top: 20px;">This is not a battle, but a moment of understanding. To restore time, you must embrace both your strength and vulnerability. The final choice awaits.</p>
+                <p style="margin-top: 30px; color: var(--neon-yellow); font-size: 1.5rem;">"Will you forgive yourself for not being perfect?"</p>
+            </div>
+            
+            <!-- Final Choice -->
+            <div class="game-container glass" style="max-width: 600px;">
+                <h3 class="game-title">THE FINAL CHOICE</h3>
+                <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 30px;">
+                    <button class="btn" id="choice-forgive" style="background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));">Yes, I embrace my whole self</button>
+                    <button class="btn" id="choice-doubt" style="background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));">I'm not ready to forgive</button>
+                </div>
+                <p id="final-message" style="margin-top: 30px; font-size: 1.3rem; min-height: 50px;"></p>
+            </div>
+        </section>
+
+        <!-- Celebration Screen -->
+        <section id="celebration-screen" class="screen">
+            <div class="fireworks-container" id="fireworks"></div>
+            <h1 class="celebration-title">HAPPY NEW YEAR!</h1>
+            <div class="new-year-message glass" style="padding: 30px; border-radius: 20px;">
+                <p>You did it, Guardian of Time. You restored the Tapestry of Moments and healed the broken worlds. Time flows once more, but now with the colors of courage, joy, clarity, and love that you brought back.</p>
+                <p style="margin-top: 20px;">As this new year begins, remember that you hold within you the power to shape time itself—not through magic, but through the moments you choose to create, the memories you cherish, and the love you share.</p>
+                <p style="margin-top: 30px; color: var(--neon-yellow); font-size: 1.5rem;">May your new year be as bright as the stars you restored.</p>
+            </div>
+            
+            <!-- Celebration Options -->
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 40px 0;">
+                <button class="btn" id="firework-btn" style="background: linear-gradient(45deg, #ff0080, #ff8c00);">
+                    <i class="fas fa-fire" style="margin-right: 10px;"></i>Launch Fireworks
+                </button>
+                <button class="btn" id="confetti-btn" style="background: linear-gradient(45deg, #00ff9d, #00b8ff);">
+                    <i class="fas fa-birthday-cake" style="margin-right: 10px;"></i>Confetti Blast
+                </button>
+                <button class="btn" id="music-btn" style="background: linear-gradient(45deg, #b967ff, #ff67c4);">
+                    <i class="fas fa-music" style="margin-right: 10px;"></i>Celebration Music
+                </button>
+            </div>
+            
+            <!-- Secret Message Container -->
+            <div class="secret-message-container glass">
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--neon-pink);">A Special Message Awaits...</h3>
+                <p style="text-align: center; margin-bottom: 20px; color: rgba(255, 255, 255, 0.8);">
+                    Stay on this page for one minute to unlock a personal message
+                </p>
+                <button id="secret-btn" disabled>
+                    <i class="fas fa-lock" style="margin-right: 10px;"></i>A Message For You
+                </button>
+                <div class="timer-text">
+                    <i class="fas fa-clock" style="margin-right: 8px;"></i>
+                    <span id="timer">01:00</span> remaining
+                </div>
+                
+                <!-- Secret Message -->
+                <div id="secret-message" class="glass" style="background: linear-gradient(45deg, rgba(255, 0, 128, 0.1), rgba(128, 0, 255, 0.1));">
+                    <p style="font-size: 2rem; margin-bottom: 20px; color: var(--neon-pink);">💖 A Request from Your Guardian 💖</p>
+                    <p style="font-size: 1.5rem;">"Every great Guardian needs a partner in time. Will you make me the admin of your Telegram channel?"</p>
+                    <p style="margin-top: 20px; font-size: 1.2rem; color: rgba(255, 255, 255, 0.8);">- With all the colors of time, Your Fluffy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Bar -->
+        <div class="progress-container glass" id="progress-container" style="display: none;">
+            <h3 class="progress-title">JOURNEY PROGRESS</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="world-indicators">
+                <div class="world-indicator active" data-world="1">
+                    <div class="world-icon"><i class="fas fa-clock"></i></div>
+                    <span>Broken Time</span>
+                </div>
+                <div class="world-indicator" data-world="2">
+                    <div class="world-icon"><i class="fas fa-brave"></i></div>
+                    <span>Lumina</span>
+                </div>
+                <div class="world-indicator" data-world="3">
+                    <div class="world-icon"><i class="fas fa-laugh-beam"></i></div>
+                    <span>Mnemosyne</span>
+                </div>
+                <div class="world-indicator" data-world="4">
+                    <div class="world-icon"><i class="fas fa-brain"></i></div>
+                    <span>The Axiom</span>
+                </div>
+                <div class="world-indicator" data-world="5">
+                    <div class="world-icon"><i class="fas fa-infinity"></i></div>
+                    <span>Ouroboros</span>
+                </div>
+                <div class="world-indicator" data-world="6">
+                    <div class="world-icon"><i class="fas fa-glass-cheers"></i></div>
+                    <span>Celebration</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation" id="navigation" style="display: none;">
+            <button class="nav-btn" id="prev-btn">
+                <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>Previous
+            </button>
+            <button class="nav-btn" id="next-btn">
+                Next <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-ethereal-fairy-perfect-for-fantasy-1315.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="celebration-music">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-celebration-567.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="success-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="firework-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-explosion-firework-1334.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Game State
+        const gameState = {
+            currentScreen: 1,
+            totalScreens: 6,
+            mazeCompleted: false,
+            memoryCompleted: false,
+            puzzleCompleted: false,
+            finalChoiceMade: false,
+            celebrationTimer: 60, // 60 seconds for the secret message
+            timerInterval: null,
+            musicEnabled: true,
+            mazeControlsActive: false
+        };
+
+        // DOM Elements
+        const screens = document.querySelectorAll('.screen');
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progressFill = document.getElementById('progress-fill');
+        const navigation = document.getElementById('navigation');
+        const worldIndicators = document.querySelectorAll('.world-indicator');
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+        const celebrationMusic = document.getElementById('celebration-music');
+        const clickSound = document.getElementById('click-sound');
+        const successSound = document.getElementById('success-sound');
+        const fireworkSound = document.getElementById('firework-sound');
+        const secretBtn = document.getElementById('secret-btn');
+        const secretMessage = document.getElementById('secret-message');
+        const timerDisplay = document.getElementById('timer');
+        const fireworkBtn = document.getElementById('firework-btn');
+        const confettiBtn = document.getElementById('confetti-btn');
+        const musicBtn = document.getElementById('music-btn');
+        const fireworksContainer = document.getElementById('fireworks');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
+
+        // Maze elements
+        const mazeUpBtn = document.getElementById('maze-up');
+        const mazeDownBtn = document.getElementById('maze-down');
+        const mazeLeftBtn = document.getElementById('maze-left');
+        const mazeRightBtn = document.getElementById('maze-right');
+
+        // Initialize the app
+        function init() {
+            createBackgroundEffects();
+            initMazeGame();
+            initMemoryGame();
+            initPuzzle();
+            initFinalChoice();
+            initCelebration();
+            initMazeControls();
+            
+            // Event Listeners
+            startBtn.addEventListener('click', startJourney);
+            prevBtn.addEventListener('click', goToPreviousScreen);
+            nextBtn.addEventListener('click', goToNextScreen);
+            musicToggle.addEventListener('click', toggleMusic);
+            
+            // Try to autoplay music with user interaction
+            document.addEventListener('click', function() {
+                if (gameState.musicEnabled && backgroundMusic.paused) {
+                    backgroundMusic.volume = 0.3;
+                    backgroundMusic.play().catch(e => console.log("Autoplay prevented"));
+                }
+            });
+            
+            // Fixed keyboard navigation - separated from maze controls
+            document.addEventListener('keydown', function(e) {
+                // Only handle navigation if we're not in the maze screen
+                if (gameState.currentScreen !== 2) {
+                    if (e.key === 'ArrowRight') goToNextScreen();
+                    if (e.key === 'ArrowLeft') goToPreviousScreen();
+                }
+                // Maze screen navigation is handled by button controls only
+            });
+        }
+
+        // Create background particles
+        function createBackgroundEffects() {
+            const container = document.getElementById('background-effects');
+            
+            // Create floating particles
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('floating-particle');
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const color = getRandomNeonColor();
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const delay = Math.random() * 15;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                container.appendChild(particle);
+            }
+            
+            // Create pulse circles
+            for (let i = 0; i < 5; i++) {
+                const pulse = document.createElement('div');
+                pulse.classList.add('pulse');
+                
+                const size = Math.random() * 300 + 100;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const delay = Math.random() * 4;
+                
+                pulse.style.width = `${size}px`;
+                pulse.style.height = `${size}px`;
+                pulse.style.left = `${x}%`;
+                pulse.style.top = `${y}%`;
+                pulse.style.animationDelay = `${delay}s`;
+                pulse.style.borderColor = getRandomNeonColor();
+                
+                container.appendChild(pulse);
+            }
+        }
+
+        function getRandomNeonColor() {
+            const colors = [
+                'rgba(0, 247, 255, 0.5)',
+                'rgba(255, 0, 214, 0.5)',
+                'rgba(255, 245, 0, 0.5)',
+                'rgba(185, 103, 255, 0.5)',
+                'rgba(0, 255, 157, 0.5)'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Start the journey
+        function startJourney() {
+            playSound(clickSound);
+            showScreen(1);
+            progressContainer.style.display = 'block';
+            navigation.style.display = 'flex';
+            updateProgress();
+            showNotification("Use the Next/Previous buttons to navigate through the story");
+        }
+
+        // Screen navigation
+        function showScreen(screenNumber) {
+            // Hide all screens
+            screens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show the requested screen
+            document.getElementById(`screen-${screenNumber}`).classList.add('active');
+            gameState.currentScreen = screenNumber;
+            
+            // Update UI
+            updateProgress();
+            updateNavigationButtons();
+            
+            // Special actions for specific screens
+            if (screenNumber === 2) { // Maze screen
+                showNotification("Use the arrow buttons to navigate the maze");
+            } else if (screenNumber === 6) { // Celebration screen
+                startCelebrationTimer();
+                launchFireworks();
+                showNotification("Stay on this page for 1 minute to unlock a secret message!");
+            }
+        }
+
+        function goToPreviousScreen() {
+            if (gameState.currentScreen > 1) {
+                playSound(clickSound);
+                showScreen(gameState.currentScreen - 1);
+            }
+        }
+
+        function goToNextScreen() {
+            // Check if current screen's game is completed
+            if (gameState.currentScreen === 2 && !gameState.mazeCompleted) {
+                showNotification("Complete the maze first to continue!");
+                return;
+            }
+            
+            if (gameState.currentScreen === 3 && !gameState.memoryCompleted) {
+                showNotification("Match all memory pairs first to continue!");
+                return;
+            }
+            
+            if (gameState.currentScreen === 4 && !gameState.puzzleCompleted) {
+                showNotification("Solve the puzzle first to continue!");
+                return;
+            }
+            
+            if (gameState.currentScreen === 5 && !gameState.finalChoiceMade) {
+                showNotification("Make your final choice first to continue!");
+                return;
+            }
+            
+            if (gameState.currentScreen < gameState.totalScreens) {
+                playSound(clickSound);
+                showScreen(gameState.currentScreen + 1);
+            }
+        }
+
+        function updateNavigationButtons() {
+            prevBtn.disabled = gameState.currentScreen === 1;
+            
+            // Special handling for the last screen
+            if (gameState.currentScreen === gameState.totalScreens) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+                nextBtn.disabled = false;
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((gameState.currentScreen - 1) / (gameState.totalScreens - 1)) * 100;
+            progressFill.style.width = `${progress}%`;
+            
+            // Update world indicators
+            worldIndicators.forEach(indicator => {
+                const world = parseInt(indicator.dataset.world);
+                indicator.classList.remove('active');
+                
+                if (world <= gameState.currentScreen) {
+                    indicator.classList.add('active');
+                }
+                
+                // Add special effect for current world
+                if (world === gameState.currentScreen) {
+                    indicator.style.transform = 'scale(1.2)';
+                    indicator.style.color = 'var(--neon-cyan)';
+                } else {
+                    indicator.style.transform = 'scale(1)';
+                    indicator.style.color = '';
+                }
+            });
+        }
+
+        // MAZE GAME
+        let mazeGrid = [];
+        let playerPosition = { x: 1, y: 1 };
+        const mazeSize = 10;
+        const exitPosition = { x: 8, y: 8 };
+
+        function initMazeGame() {
+            generateMaze();
+            renderMaze();
+        }
+
+        function initMazeControls() {
+            // Button controls for maze
+            mazeUpBtn.addEventListener('click', () => movePlayer('up'));
+            mazeDownBtn.addEventListener('click', () => movePlayer('down'));
+            mazeLeftBtn.addEventListener('click', () => movePlayer('left'));
+            mazeRightBtn.addEventListener('click', () => movePlayer('right'));
+        }
+
+        function generateMaze() {
+            // Create empty maze
+            mazeGrid = [];
+            for (let y = 0; y < mazeSize; y++) {
+                mazeGrid[y] = [];
+                for (let x = 0; x < mazeSize; x++) {
+                    // Create walls around edges
+                    if (x === 0 || y === 0 || x === mazeSize - 1 || y === mazeSize - 1) {
+                        mazeGrid[y][x] = 'wall';
+                    } else {
+                        // Create a simple maze pattern
+                        const isWall = Math.random() > 0.7;
+                        mazeGrid[y][x] = isWall ? 'wall' : 'path';
+                    }
+                }
+            }
+            
+            // Ensure start and exit are paths
+            mazeGrid[1][1] = 'start';
+            mazeGrid[exitPosition.y][exitPosition.x] = 'end';
+            
+            // Create a clear path from start to exit (simplified)
+            for (let y = 1; y <= exitPosition.y; y++) {
+                mazeGrid[y][1] = 'path';
+            }
+            for (let x = 1; x <= exitPosition.x; x++) {
+                mazeGrid[exitPosition.y][x] = 'path';
+            }
+            
+            // Reset player position
+            playerPosition = { x: 1, y: 1 };
+        }
+
+        function renderMaze() {
+            const container = document.getElementById('maze-container');
+            container.innerHTML = '';
+            
+            for (let y = 0; y < mazeSize; y++) {
+                for (let x = 0; x < mazeSize; x++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('maze-cell');
+                    
+                    // Determine cell type
+                    if (x === playerPosition.x && y === playerPosition.y) {
+                        cell.classList.add('player');
+                    } else if (mazeGrid[y][x] === 'start') {
+                        cell.classList.add('start');
+                    } else if (mazeGrid[y][x] === 'end') {
+                        cell.classList.add('end');
+                    } else if (mazeGrid[y][x] === 'wall') {
+                        cell.classList.add('wall');
+                    } else {
+                        cell.classList.add('path');
+                    }
+                    
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function movePlayer(direction) {
+            // Only allow movement if on maze screen and maze not completed
+            if (gameState.currentScreen !== 2 || gameState.mazeCompleted) {
+                return;
+            }
+            
+            let newX = playerPosition.x;
+            let newY = playerPosition.y;
+            
+            switch(direction) {
+                case 'up':
+                    newY--;
+                    break;
+                case 'down':
+                    newY++;
+                    break;
+                case 'left':
+                    newX--;
+                    break;
+                case 'right':
+                    newX++;
+                    break;
+                default:
+                    return;
+            }
+            
+            // Check if move is valid
+            if (newX >= 0 && newX < mazeSize && newY >= 0 && newY < mazeSize) {
+                if (mazeGrid[newY][newX] !== 'wall') {
+                    playerPosition.x = newX;
+                    playerPosition.y = newY;
+                    renderMaze();
+                    
+                    // Check if player reached exit
+                    if (newX === exitPosition.x && newY === exitPosition.y) {
+                        gameState.mazeCompleted = true;
+                        playSound(successSound);
+                        showNotification("Congratulations! You've restored the Ember of Valor!");
+                        
+                        // Add visual celebration
+                        setTimeout(() => {
+                            for (let i = 0; i < 20; i++) {
+                                setTimeout(() => {
+                                    createParticle(playerPosition.x * 50 + 25, playerPosition.y * 50 + 25);
+                                }, i * 50);
+                            }
+                        }, 500);
+                    }
+                }
+            }
+        }
+
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '10px';
+            particle.style.height = '10px';
+            particle.style.background = getRandomNeonColor();
+            particle.style.borderRadius = '50%';
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.zIndex = '10';
+            particle.style.pointerEvents = 'none';
+            
+            const mazeContainer = document.getElementById('maze-container');
+            mazeContainer.appendChild(particle);
+            
+            // Animate
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 3 + Math.random() * 3;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+            
+            let posX = x;
+            let posY = y;
+            let opacity = 1;
+            
+            const animate = () => {
+                posX += vx;
+                posY += vy;
+                opacity -= 0.03;
+                
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = opacity;
+                
+                if (opacity > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            };
+            
+            animate();
+        }
+
+        // MEMORY GAME
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        const emojis = ['⭐', '❤️', '🎮', '🎬', '🎁', '🌈', '✨', '🎉'];
+
+        function initMemoryGame() {
+            // Create pairs of emojis
+            let cards = [...emojis, ...emojis];
+            
+            // Shuffle the cards
+            cards = cards.sort(() => Math.random() - 0.5);
+            
+            // Create card elements
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+            
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                
+                const front = document.createElement('div');
+                front.classList.add('front');
+                front.innerHTML = '?';
+                
+                const back = document.createElement('div');
+                back.classList.add('back');
+                back.innerHTML = emoji;
+                
+                card.appendChild(front);
+                card.appendChild(back);
+                
+                card.addEventListener('click', flipCard);
+                grid.appendChild(card);
+                
+                memoryCards.push({
+                    element: card,
+                    emoji: emoji,
+                    isFlipped: false,
+                    isMatched: false
+                });
+            });
+            
+            // Reset game state
+            flippedCards = [];
+            matchedPairs = 0;
+            document.getElementById('match-count').textContent = '0';
+        }
+
+        function flipCard(e) {
+            const cardElement = e.currentTarget;
+            const index = cardElement.dataset.index;
+            const card = memoryCards[index];
+            
+            // Don't flip if already flipped or matched
+            if (card.isFlipped || card.isMatched || flippedCards.length >= 2) {
+                return;
+            }
+            
+            // Flip the card
+            cardElement.classList.add('flipped');
+            card.isFlipped = true;
+            flippedCards.push(card);
+            
+            playSound(clickSound);
+            
+            // Check for match if two cards are flipped
+            if (flippedCards.length === 2) {
+                const [card1, card2] = flippedCards;
+                
+                if (card1.emoji === card2.emoji) {
+                    // Match found
+                    card1.isMatched = true;
+                    card2.isMatched = true;
+                    matchedPairs++;
+                    
+                    document.getElementById('match-count').textContent = matchedPairs;
+                    playSound(successSound);
+                    
+                    // Check if game is complete
+                    if (matchedPairs === emojis.length) {
+                        gameState.memoryCompleted = true;
+                        setTimeout(() => {
+                            showNotification("Wonderful! You've restored the Prism of Laughter!");
+                        }, 500);
+                    }
+                    
+                    flippedCards = [];
+                } else {
+                    // No match, flip back after delay
+                    setTimeout(() => {
+                        card1.element.classList.remove('flipped');
+                        card2.element.classList.remove('flipped');
+                        card1.isFlipped = false;
+                        card2.isFlipped = false;
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        // LOGIC PUZZLE
+        function initPuzzle() {
+            const options = document.querySelectorAll('.puzzle-option');
+            const feedback = document.getElementById('puzzle-feedback');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Reset all options
+                    options.forEach(opt => {
+                        opt.classList.remove('correct', 'incorrect');
+                    });
+                    
+                    // Check if answer is correct
+                    if (this.dataset.answer === 'correct') {
+                        this.classList.add('correct');
+                        feedback.textContent = "Brilliant! You've understood the paradox and restored the Keystone of Clarity!";
+                        feedback.style.color = 'var(--neon-green)';
+                        gameState.puzzleCompleted = true;
+                        playSound(successSound);
+                    } else {
+                        this.classList.add('incorrect');
+                        feedback.textContent = "Interesting approach, but not quite the temporal truth. Try again!";
+                        feedback.style.color = 'var(--neon-pink)';
+                        playSound(clickSound);
+                    }
+                });
+            });
+        }
+
+        // FINAL CHOICE - FIXED VERSION
+        function initFinalChoice() {
+            const forgiveBtn = document.getElementById('choice-forgive');
+            const doubtBtn = document.getElementById('choice-doubt');
+            const finalMessage = document.getElementById('final-message');
+            
+            forgiveBtn.addEventListener('click', function() {
+                finalMessage.innerHTML = "With this act of self-compassion, time begins to flow again—not as it was, but as it should be: <span style='color: var(--neon-green)'>full of color, possibility, and love</span>.";
+                finalMessage.style.color = 'var(--neon-cyan)';
+                
+                // CRITICAL FIX: Set the game state BEFORE playing sound
+                gameState.finalChoiceMade = true;
+                
+                playSound(successSound);
+                
+                // Enable next button after a delay
+                setTimeout(() => {
+                    const nextButton = document.getElementById('next-btn');
+                    nextButton.disabled = false;
+                    nextButton.style.opacity = '1';
+                    nextButton.style.cursor = 'pointer';
+                    nextButton.style.display = 'block';
+                    
+                    showNotification("Final choice made! Click Next to proceed to the celebration!");
+                }, 1500);
+            });
+            
+            doubtBtn.addEventListener('click', function() {
+                finalMessage.innerHTML = "The world dims slightly. The Chronos Wraith smiles sadly. 'Perhaps next time,' it whispers. But then... a spark of your earlier courage flickers. Try again?";
+                finalMessage.style.color = 'var(--neon-pink)';
+                playSound(clickSound);
+                
+                // Reset after a moment
+                setTimeout(() => {
+                    finalMessage.innerHTML = "";
+                }, 3000);
+            });
+        }
+
+        // CELEBRATION FUNCTIONS
+        function initCelebration() {
+            // Fireworks button
+            fireworkBtn.addEventListener('click', function() {
+                launchFireworks();
+                playSound(fireworkSound);
+            });
+            
+            // Confetti button
+            confettiBtn.addEventListener('click', function() {
+                createConfetti();
+                playSound(successSound);
+            });
+            
+            // Celebration music button
+            musicBtn.addEventListener('click', function() {
+                if (celebrationMusic.paused) {
+                    celebrationMusic.volume = 0.4;
+                    celebrationMusic.play();
+                    musicBtn.innerHTML = '<i class="fas fa-volume-up" style="margin-right: 10px;"></i>Pause Music';
+                } else {
+                    celebrationMusic.pause();
+                    musicBtn.innerHTML = '<i class="fas fa-music" style="margin-right: 10px;"></i>Celebration Music';
+                }
+            });
+            
+            // Secret message button
+            secretBtn.addEventListener('click', function() {
+                secretMessage.style.display = 'block';
+                secretBtn.style.display = 'none';
+                playSound(successSound);
+            });
+        }
+
+        function startCelebrationTimer() {
+            // Clear any existing timer
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+            }
+            
+            // Reset timer
+            gameState.celebrationTimer = 60;
+            updateTimerDisplay();
+            
+            // Start countdown
+            gameState.timerInterval = setInterval(() => {
+                gameState.celebrationTimer--;
+                updateTimerDisplay();
+                
+                if (gameState.celebrationTimer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    secretBtn.classList.add('unlocked');
+                    secretBtn.disabled = false;
+                    secretBtn.innerHTML = '<i class="fas fa-unlock" style="margin-right: 10px;"></i>A Message For You';
+                    timerDisplay.textContent = "Ready!";
+                    playSound(successSound);
+                    showNotification("Secret message unlocked! Click the button!");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(gameState.celebrationTimer / 60);
+            const seconds = gameState.celebrationTimer % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function launchFireworks() {
+            const colors = ['#ff0080', '#00ff9d', '#b967ff', '#ff8c00', '#00b8ff'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createFirework(colors[Math.floor(Math.random() * colors.length)]);
+                }, i * 300);
+            }
+        }
+
+        function createFirework(color) {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.background = color;
+            firework.style.left = `${Math.random() * 100}%`;
+            firework.style.setProperty('--explode-y', `${Math.random() * 50 + 25}%`);
+            
+            fireworksContainer.appendChild(firework);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0080', '#00ff9d', '#b967ff', '#ff8c00', '#00b8ff', '#fff500'];
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('floating-particle');
+                
+                const size = Math.random() * 10 + 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const x = Math.random() * 100;
+                const delay = Math.random() * 5;
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.background = color;
+                confetti.style.left = `${x}%`;
+                confetti.style.top = `-10px`;
+                confetti.style.animation = `float ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.animationDelay = `${delay}s`;
+                confetti.style.borderRadius = '0';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                fireworksContainer.appendChild(confetti);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        // NOTIFICATION SYSTEM
+        function showNotification(message) {
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // AUDIO FUNCTIONS
+        function toggleMusic() {
+            gameState.musicEnabled = !gameState.musicEnabled;
+            
+            if (gameState.musicEnabled) {
+                backgroundMusic.volume = 0.3;
+                backgroundMusic.play();
+                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                musicToggle.style.color = 'var(--neon-cyan)';
+            } else {
+                backgroundMusic.pause();
+                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                musicToggle.style.color = 'rgba(255, 255, 255, 0.7)';
+            }
+        }
+
+        function playSound(audioElement) {
+            if (!gameState.musicEnabled) return;
+            
+            audioElement.currentTime = 0;
+            audioElement.volume = 0.5;
+            audioElement.play().catch(e => console.log("Audio play prevented"));
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
